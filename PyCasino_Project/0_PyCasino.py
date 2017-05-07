@@ -2,6 +2,8 @@
 
 from tkinter import *
 
+X = 0
+Y = 0
 
 #---INITIALISATION-DU-PROGRAMME---#
 
