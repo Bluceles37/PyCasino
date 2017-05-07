@@ -5,19 +5,16 @@ from tkinter import *
 
 #---INITIALISATION-DU-PROGRAMME---#
 
-def __init__(event):
+def __init__():
     """Initialisation du programme"""
-    global w, X, Y, bg_i, game_logo_i, button_jouer_i, button_comptes_i, button_quit_i, button_bj_i, button_rr_i, button_return_i, bgMP, bgMJ, bgMC
+    global w, bgMP, bgMJ, bgMC, bg_i, game_logo_i, button_jouer_i, button_comptes_i, button_quit_i, button_bj_i, button_rr_i, button_return_i, button_compte_empty_i, button_remove_compte_i
 
     #--Création-de-la-fenêtre-graphique.-Nom-:-"w"--#
     w = Tk()
     w.title("Super TKZino2000")
     w.geometry('1280x720')
     w.resizable(width=False, height=False)
-
-    #------------COMMANDES------------#
-    X = event.x
-    Y = event.y
+    w.bind("<Motion>", mouse_pos)
 
     #----------IMPORT-IMAGES----------#
         #-----Menu-Images-----#
@@ -32,6 +29,9 @@ def __init__(event):
     button_bj_i = PhotoImage(file="1_images/0_Menus/2_MenuJ/button_bj.gif")
     button_rr_i = PhotoImage(file="1_images/0_Menus/2_MenuJ/button_rr.gif")
     button_return_i = PhotoImage(file="1_images/0_Menus/2_MenuJ/button_return.gif")
+            #---Menu-C---#
+    button_compte_empty_i = PhotoImage(file="1_images/0_Menus/3_MenuC/button_compte_empty.gif")
+    button_remove_compte_i = PhotoImage(file="1_images/0_Menus/3_MenuC/button_remove_compte.gif")
 
     #-----ROOT-BACKGROUND-CANVAS------#
         #-----Menu-P-----#
@@ -43,7 +43,7 @@ def __init__(event):
 
     #----Lancement-de-l'interface-Menu-Principal----#
     MenuPrincipal()
-
+    w.mainloop()
 
 #--------------MENUS--------------#
 
@@ -58,6 +58,7 @@ def MenuPrincipal():
     """
     global bgMP, button_jouer, button_comptes, button_quit
     bgMJ.pack_forget()
+    bgMC.pack_forget()
 
     #--Background-Root--#
 
@@ -111,7 +112,7 @@ def MenuComptes():
       - Un bouton retour au MP (clic = launch "MenuPrincipal()")
       - Le logo principal du jeu
     """
-    global button_compte1, button_compte2, button_compte3, button_return_MC
+    global button_compte1, button_compte2, button_compte3, button_return_MC, button_remove_compte
     bgMP.pack_forget()
 
     #--Background-Root--#
@@ -124,18 +125,23 @@ def MenuComptes():
     bgMC.create_image(0, 0, anchor="nw", image=game_logo_i) #Logo du jeu
 
     #------Boutons-------#
-    button_compte1 = bgMC.create_image(0, 0, anchor=NW, image=bg_i) #Bouton Compte1
-    button_compte2 = bgMC.create_image(0, 0, anchor=NW, image=bg_i) #Bouton Compte1
-    button_compte3 = bgMC.create_image(0, 0, anchor=NW, image=bg_i) #Bouton Compte1
-    button_return_MC = bgMJ.create_image(20, 20, anchor=NW, image=button_return_i) #Bouton Retour
+    button_compte1 = bgMC.create_image(84, 192, anchor=NW, image=button_compte_empty_i) #Bouton Compte1
+    button_compte2 = bgMC.create_image(487, 192, anchor=NW, image=button_compte_empty_i) #Bouton Compte2
+    button_compte3 = bgMC.create_image(893, 192, anchor=NW, image=button_compte_empty_i) #Bouton Compte3
+    button_remove_compte = bgMC.create_image(592, 583, anchor=NW, image=button_remove_compte_i) #Bouton remove compte
+    button_return_MC = bgMC.create_image(20, 20, anchor=NW, image=button_return_i) #Bouton Retour
 
 
 #------------COMMANDES------------#
 
+def mouse_pos(event):
+   global X, Y
+   X = event.x
+   Y = event.y
+
 def MouseMP(event):
     """Cette commande rend fonctionnels les boutons du Menu Principal
     """
-
     #---Hitbox-du-bouton-Jouer---#
     if 537 <= X <= 743 and 261 <= Y <= 467:
         print("## Vous avez cliqué sur le bouton Jouer ##")
@@ -144,6 +150,7 @@ def MouseMP(event):
     #---Hitbox-du-bouton-Comptes---#
     elif 537 <= X <= 743 and 467 <= Y <= 673:
         print("## Vous avez cliqué sur le bouton Comptes ##")
+        MenuComptes()
 
     #---Hitbox-du-bouton-Quit---#
     elif 20 <= X <= 74 and 20 <= Y <= 74:
@@ -154,7 +161,6 @@ def MouseMP(event):
 def MouseMJ(event):
     """Cette commande rend fonctionnels les boutons du Menu Jouer
     """
-
     #---Hitbox-du-bouton-BlackJack---#
     if 307 <= X <= 567 and 337 <= Y <= 597:
         print("## Vous avez cliqué sur le bouton BlackJack ##")
@@ -172,18 +178,21 @@ def MouseMJ(event):
 def MouseMC(event):
     """Cette commande rend fonctionnels les boutons du Menu Jouer
     """
-
     #---Hitbox-du-bouton-Compte1---#
-    if 0 <= X <= 1 and 0 <= Y <= 1:
+    if 84 <= X <= 393 and 192 <= Y <= 545:
         print("## Vous avez cliqué sur le bouton Compte1 ##")
 
     #---Hitbox-du-bouton-Compte2---#
-    if 0 <= X <= 1 and 0 <= Y <= 1:
+    elif 487 <= X <= 796 and 192 <= Y <= 545:
         print("## Vous avez cliqué sur le bouton Compte2 ##")
 
-    #---Hitbox-du-bouton-Compte2---#
-    if 0 <= X <= 1 and 0 <= Y <= 1:
-        print("## Vous avez cliqué sur le bouton Compte2 ##")
+    #---Hitbox-du-bouton-Compte3---#
+    elif 893 <= X <= 1202 and 192 <= Y <= 545:
+        print("## Vous avez cliqué sur le bouton Compte3 ##")
+
+    #---Hitbox-du-bouton-Remove-Compte---#
+    elif 592 <= X <= 583 and 690 <= Y <= 682:
+        print("## Vous avez cliqué sur le bouton remove compte ##")
 
     #---Hitbox-du-bouton-Return---#
     elif 20 <= X <= 74 and 20 <= Y <= 74:
@@ -197,4 +206,3 @@ def MouseMC(event):
 ##=========================================##
 
 __init__()
-w.mainloop()
